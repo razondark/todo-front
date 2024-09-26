@@ -1,5 +1,5 @@
 # Используем официальный образ Node.js в качестве базового образа
-FROM node:14-alpine as builder
+FROM node:16-alpine as builder
 
 # Устанавливаем рабочую директорию в контейнере
 WORKDIR /app
@@ -15,6 +15,9 @@ COPY . .
 
 # Собираем React-приложение для production
 RUN npm run build
+
+# Удаляем ненужные файлы после сборки
+RUN rm -rf node_modules
 
 # Используем образ Nginx для обслуживания статических файлов
 FROM nginx:alpine
